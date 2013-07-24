@@ -19,7 +19,6 @@
  */
 package kafka.serializer;
 
-import kafka.message.Message;
 import kafka.syslog.SyslogProto;
 import kafka.syslog.SyslogProto.SyslogMessage;
 
@@ -33,10 +32,10 @@ public class SyslogMessageDecoder implements Decoder<SyslogMessage> {
     private static final Logger LOG = Logger.getLogger(SyslogMessageDecoder.class);
 
     @Override
-    public SyslogMessage toEvent(Message msg) {
+    public SyslogMessage fromBytes(byte[] bytes) {
         SyslogMessage smsg = null;
         try {
-            smsg = SyslogProto.SyslogMessage.parseFrom(ByteString.copyFrom(msg.payload()));
+            smsg = SyslogProto.SyslogMessage.parseFrom(ByteString.copyFrom(bytes));
         } catch (InvalidProtocolBufferException e) {
             LOG.error("Received unparseable message", e);
         }

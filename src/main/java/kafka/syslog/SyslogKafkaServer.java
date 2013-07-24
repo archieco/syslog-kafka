@@ -58,11 +58,11 @@ public class SyslogKafkaServer {
     }
 
     public static void main(String[] args) throws SyslogRuntimeException, IOException {
-        final SyslogServerIF syslogServer = SyslogServer.getThreadedInstance("udp");
+        final SyslogServerIF syslogServer = SyslogServer.getThreadedInstance("tcp");
 
         SyslogServerConfigIF syslogServerConfig = syslogServer.getConfig();
         // syslogServerConfig.setCharSet("UTF-8");
-        syslogServerConfig.setHost("192.168.11.6");
+        syslogServerConfig.setHost("0.0.0.0");
         syslogServerConfig.setPort(5140);
 
         final Properties kafkaProperties = getDefaultKafkaProperties();
@@ -89,6 +89,7 @@ public class SyslogKafkaServer {
         syslogServerConfig.addEventHandler(kafkaEventHandler);
 
         try {
+            LOG.info("waiting on server thread");
             syslogServer.getThread().join();
         } catch (InterruptedException e) {
             LOG.error("Main thread interrupted...");

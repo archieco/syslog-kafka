@@ -20,7 +20,7 @@
 package kafka.syslog;
 
 import kafka.javaapi.producer.Producer;
-import kafka.javaapi.producer.ProducerData;
+import kafka.producer.KeyedMessage;
 import kafka.syslog.SyslogProto.SyslogMessage;
 import kafka.syslog.SyslogProto.SyslogMessage.Severity;
 
@@ -52,7 +52,7 @@ public class KafkaEventHandler implements SyslogServerEventHandlerIF {
     }
 
     private void send(SyslogMessage message) {
-        ProducerData<String, SyslogMessage> pd = new ProducerData<String, SyslogMessage>("syslog-kafka", message);
+        KeyedMessage<String, SyslogMessage> pd = new KeyedMessage<String, SyslogMessage>("syslog-kafka", message);
         producer.send(pd);
     }
 }

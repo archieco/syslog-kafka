@@ -19,14 +19,22 @@
  */
 package kafka.serializer;
 
-import kafka.message.Message;
 import kafka.syslog.SyslogProto.SyslogMessage;
+import kafka.utils.VerifiableProperties;
 
 public class SyslogMessageEncoder implements Encoder<SyslogMessage> {
 
+
+
+    public SyslogMessageEncoder(VerifiableProperties props)   {
+
+    }
+
+
+
     @Override
-    public Message toMessage(SyslogMessage smsg) {
-        return new Message(smsg.toByteArray());
+    public byte[] toBytes(SyslogMessage syslogMessage) {
+        return syslogMessage.toByteArray();
     }
 
 }
